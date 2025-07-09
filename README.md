@@ -2,8 +2,8 @@
 
 A decentralized web application (dApp) to securely store and verify academic certificates using Blockchain (Ethereum + Ganache) and IPFS (via Pinata). It ensures tamper-proof, transparent, and trustless certificate validation.
 
-## 🔗 Live Preview (Optional)
-Add deployment link here if hosted via Vercel, Netlify, or localhost demo.
+## 🔗 Live Preview
+https://drive.google.com/file/d/1V9UfB_qQXnksNlx50ZXDVVrcNTzF3tk4/view?usp=sharing
 
 ---
 
