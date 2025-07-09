@@ -1,70 +1,138 @@
-# Getting Started with Create React App
+# 📌 Blockchain-Based Certificate Verification System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A decentralized web application (dApp) to securely store and verify academic certificates using Blockchain (Ethereum + Ganache) and IPFS (via Pinata). It ensures tamper-proof, transparent, and trustless certificate validation.
 
-## Available Scripts
+## 🔗 Live Preview (Optional)
+Add deployment link here if hosted via Vercel, Netlify, or localhost demo.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 📈 Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- ✅ Upload a certificate file (PDF, PNG, etc.)
+- 🔐 Generate a SHA-256 hash of the file for unique identity
+- 📁 Upload the certificate to IPFS via Pinata
+- ⛓ Store student name, certificate hash, and IPFS CID on a local Ethereum blockchain (Ganache)
+- ✅ Verify certificate authenticity using the hash
+- 🧒 MetaMask integration for wallet and transactions
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## 🛠 Tech Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Technology       | Purpose                          |
+|------------------|----------------------------------|
+| React.js         | Frontend Framework               |
+| Web3.js          | Blockchain Interaction           |
+| Solidity         | Smart Contract Language          |
+| Ganache          | Local Ethereum Test Blockchain   |
+| MetaMask         | Wallet & Blockchain Connector    |
+| IPFS + Pinata    | Decentralized File Storage       |
+| CryptoJS         | SHA-256 Hashing                  |
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🚀 Getting Started
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 1. Clone the Repository
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+bash
+git clone https://github.com/yourusername/certi-verification-pro.git
+cd certi-verification-pro
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 2. Install Dependencies
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+bash
+npm install
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 3. Start the React App
 
-## Learn More
+bash
+npm start
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The app will run on http://localhost:3000
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## ⚙ Blockchain Setup
 
-### Analyzing the Bundle Size
+### Ganache
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- Open Ganache GUI
+- Use RPC: http://127.0.0.1:7545
+- Chain ID: 1337
+- Network ID: 5777
 
-### Making a Progressive Web App
+### MetaMask Setup
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+1. Open MetaMask → Add Network
+2. Set:
+   - Network Name: Ganache Local
+   - RPC URL: http://127.0.0.1:7545
+   - Chain ID: 1337
+   - Currency: ETH
 
-### Advanced Configuration
+3. Import one of the Ganache test accounts
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+---
 
-### Deployment
+## 📦 Smart Contract (CertiStorage.sol)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
-### `npm run build` fails to minify
+contract CertiStorage {
+    struct Certificate {
+        string studentName;
+        string ipfsHash;
+    }
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    mapping(bytes32 => Certificate) public certificates;
+
+    function storeCertificate(string memory _studentName, bytes32 _certiHash, string memory _ipfsHash) public {
+        certificates[_certiHash] = Certificate(_studentName, _ipfsHash);
+    }
+
+    function verifyCertificate(bytes32 _certiHash) public view returns (string memory, string memory) {
+        Certificate memory certi = certificates[_certiHash];
+        return (certi.studentName, certi.ipfsHash);
+    }
+}
+
+
+✅ Deployed on Ganache  
+✅ Interacted using Web3.js and React frontend
+
+---
+
+## 🧪 How to Use
+
+1. Upload a certificate
+2. Generate SHA-256 hash
+3. Upload to IPFS
+4. Connect MetaMask to Ganache
+5. Store certificate on blockchain
+6. Verify using certificate hash
+
+---
+
+## 📷 Screenshots
+
+![image](https://github.com/user-attachments/assets/5fefb688-a964-4009-99bc-31ee250a1399)
+
+
+---
+
+## 🙇‍♂ Author
+
+Vedant soni   
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License — feel free to use and modify.
